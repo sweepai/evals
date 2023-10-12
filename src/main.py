@@ -53,8 +53,26 @@ class ModelTrainer:
                 self.optimizer.step()
 
     def evaluate(self):
-        # TODO: Implement model evaluation
-        pass
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,))
+        ])
+
+        testset = datasets.MNIST('.', download=True, train=False, transform=transform)
+        testloader = DataLoader(testset, batch_size=self.batch_size, shuffle=True)
+
+        correct = 0
+        total = 0
+
+        with torch.no_grad():
+            for images, labels in testloader:
+                output = self.model(images)
+                _, predicted = torch.max(output.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+        accuracy = 100 * correct / total
+        print('Accuracy of the model on the test images: %d%%' % accuracy)
 
     def run(self):
         self.load_data()
