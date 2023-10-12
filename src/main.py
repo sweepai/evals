@@ -30,19 +30,29 @@ class Net(nn.Module):
         x = self.fc3(x)
         return nn.functional.log_softmax(x, dim=1)
 
-# Step 3: Train the Model
+# Step 3: Define the Trainer class
+class Trainer:
+    def __init__(self, model, optimizer, criterion, trainloader):
+        self.model = model
+        self.optimizer = optimizer
+        self.criterion = criterion
+        self.trainloader = trainloader
+
+    def train(self, epochs):
+        for epoch in range(epochs):
+            for images, labels in self.trainloader:
+                self.optimizer.zero_grad()
+                output = self.model(images)
+                loss = self.criterion(output, labels)
+                loss.backward()
+                self.optimizer.step()
+
+# Step 4: Train the Model
 model = Net()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
-# Training loop
-epochs = 3
-for epoch in range(epochs):
-    for images, labels in trainloader:
-        optimizer.zero_grad()
-        output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+trainer = Trainer(model, optimizer, criterion, trainloader)
+trainer.train(3)
 
 torch.save(model.state_dict(), "mnist_model.pth")
