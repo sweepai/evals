@@ -1,4 +1,5 @@
 import pytest
+import torch.nn as nn
 from pytest_mock import MockerFixture
 from torchvision import datasets
 from torch.utils.data import DataLoader
