@@ -8,7 +8,7 @@ from src import main
 def setup_module(module):
     """Setup for the test module."""
     try:
-        subprocess.run(["poetry", "--version"], check=True)
+        subprocess.run(["poetry", "--version"], shell=True, check=True)
     except subprocess.CalledProcessError:
         subprocess.run("curl -sSL https://install.python-poetry.org | python3 -", shell=True, check=True)
 
