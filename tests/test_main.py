@@ -1,17 +1,9 @@
 import pytest
-import subprocess
 from pytest_mock import MockerFixture
 from torchvision import datasets
 from torch.utils.data import DataLoader
+import torch.nn as nn
 from src import main
-
-def setup_module(module):
-    """Setup for the test module."""
-    try:
-        subprocess.run(["poetry", "--version"], shell=True, check=True)
-    except subprocess.CalledProcessError:
-        subprocess.run(["pip", "install", "poetry"], check=True)
-        subprocess.run(["export", "PATH=$PATH:~/.poetry/bin"], shell=True, check=True)
 
 def test_data_loading_and_preprocessing(mocker: MockerFixture):
     """Test the data loading and preprocessing steps."""
