@@ -40,7 +40,29 @@ This project requires the following Python libraries:
 - PIL
 - FastAPI
 
-You can install these dependencies using pip:
+Before installing these dependencies, ensure that `pip` is installed and working correctly. You can verify this by running the following command:
+
+```bash
+pip --version
+```
+
+If `pip` is not installed or not working correctly, you may need to troubleshoot your Python installation or install `pip` separately.
+
+Once `pip` is working correctly, you can install the `poetry` package manager using `pip`:
+
+```bash
+pip install poetry
+```
+
+If you encounter issues with the `poetry` installation, you may need to troubleshoot your `poetry` installation or seek help from the `poetry` community.
+
+Once `poetry` is installed, you can install the project dependencies using `poetry`:
+
+```bash
+poetry install
+```
+
+If you are unable to install `poetry`, you can install the project dependencies directly using `pip`:
 
 ```bash
 pip install torch torchvision numpy pillow fastapi
