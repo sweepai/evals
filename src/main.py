@@ -6,16 +6,28 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
 
-# Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
+class MNISTTrainer:
+    def __init__(self):
+        # Load and preprocess MNIST data
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,))
+        ])
 
-trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
-trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
+        self.trainset = datasets.MNIST('.', download=True, train=True, transform=self.transform)
+        self.trainloader = DataLoader(self.trainset, batch_size=64, shuffle=True)
 
-# Step 2: Define the PyTorch Model
+    def train(self, model, optimizer, criterion, epochs):
+        # Training loop
+        for epoch in range(epochs):
+            for images, labels in self.trainloader:
+                optimizer.zero_grad()
+                output = model(images)
+                loss = criterion(output, labels)
+                loss.backward()
+                optimizer.step()
+            print(f'Epoch {epoch+1}/{epochs} Loss: {loss.item()}')
+
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
@@ -30,19 +42,14 @@ class Net(nn.Module):
         x = self.fc3(x)
         return nn.functional.log_softmax(x, dim=1)
 
-# Step 3: Train the Model
+    def train(self, optimizer, criterion, epochs):
+        trainer = MNISTTrainer()
+        trainer.train(self, optimizer, criterion, epochs)
+
+# Train the model
 model = Net()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
-
-# Training loop
-epochs = 3
-for epoch in range(epochs):
-    for images, labels in trainloader:
-        optimizer.zero_grad()
-        output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+model.train(optimizer, criterion, 3)
 
 torch.save(model.state_dict(), "mnist_model.pth")
