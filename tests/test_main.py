@@ -1,8 +1,16 @@
 import pytest
+import subprocess
 from pytest_mock import MockerFixture
 from torchvision import datasets
 from torch.utils.data import DataLoader
 from src import main
+
+def setup_module(module):
+    """Setup for the test module."""
+    try:
+        subprocess.run(["poetry", "--version"], check=True)
+    except subprocess.CalledProcessError:
+        subprocess.run(["curl", "-sSL", "https://install.python-poetry.org", "|", "python3", "-"], check=True)
 
 def test_data_loading_and_preprocessing(mocker: MockerFixture):
     """Test the data loading and preprocessing steps."""
