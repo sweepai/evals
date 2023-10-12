@@ -54,6 +54,14 @@ Once `pip` is working correctly, you can install the `poetry` package manager us
 pip install poetry
 ```
 
+After installing `poetry`, verify that it was installed correctly by checking its version:
+
+```bash
+poetry --version
+```
+
+If the command does not return a version number, `poetry` was not installed correctly.
+
 If you encounter issues with the `poetry` installation, you may need to troubleshoot your `poetry` installation. Here are some steps you can take:
 
 1. Check if the `poetry` executable is in your system's PATH. You can do this by running the following command:
