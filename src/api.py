@@ -1,5 +1,13 @@
 import os
 import subprocess
+import sys
+
+# Check if pip is installed
+try:
+    subprocess.run(["pip", "--version"], check=True)
+except subprocess.CalledProcessError:
+    print("Error: pip is not installed. Please install pip and try again.")
+    sys.exit(1)
 
 # Check if poetry is installed, if not, install it
 try:
