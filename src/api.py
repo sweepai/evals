@@ -13,7 +13,10 @@ except subprocess.CalledProcessError:
 try:
     subprocess.run(["poetry", "--version"], check=True)
 except subprocess.CalledProcessError:
-    subprocess.run(["pip", "install", "poetry"], check=True)
+    # Download the get-poetry.py script
+    subprocess.run(["curl", "-sSL", "https://install.python-poetry.org", "-o", "get-poetry.py"], check=True)
+    # Execute the get-poetry.py script to install poetry
+    subprocess.run(["python", "get-poetry.py", "--yes"], check=True)
 
 from fastapi import FastAPI, UploadFile, File
 from PIL import Image
