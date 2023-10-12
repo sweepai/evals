@@ -5,10 +5,10 @@
 rules:
 - "All docstrings and comments should be up to date."
 - "Code should be properly formatted and indented."
- - "Variable and function names should be descriptive and follow a consistent naming convention."
- - "Imports should be organized and grouped together."
- - "There should be no unused imports or variables."
- - "Code should be properly commented and include docstrings for functions and classes."
+- "Variable and function names should be descriptive and follow a consistent naming convention."
+- "Imports should be organized and grouped together."
+- "There should be no unused imports or variables."
+- "Code should be properly commented and include docstrings for functions and classes."
 
 # This is the branch that Sweep will develop from and make pull requests to. Most people use 'main' or 'master' but some users also use 'dev' or 'staging'.
 branch: 'main'
