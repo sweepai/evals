@@ -1,3 +1,5 @@
+import os
+import sys
 import logging
 from PIL import Image
 import torch
@@ -6,6 +8,11 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
+
+# Check if poetry is installed
+if os.system('which poetry') != 0:
+    print("Poetry is not installed. Please install it and try again.")
+    sys.exit(1)
 
 # Set up logging
 logging.basicConfig(level=logging.ERROR)
