@@ -6,11 +6,14 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
 
-# Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
+class MNISTTrainer:
+    def __init__(self):
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,))
+        ])
+        self.testset = datasets.MNIST('.', download=True, train=False, transform=self.transform)
+        self.testloader = DataLoader(self.testset, batch_size=64, shuffle=True)
 
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
