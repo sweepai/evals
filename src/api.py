@@ -1,3 +1,12 @@
+import os
+import subprocess
+
+# Check if poetry is installed, if not, install it
+try:
+    subprocess.run(["poetry", "--version"], check=True)
+except subprocess.CalledProcessError:
+    subprocess.run(["pip", "install", "poetry"], check=True)
+
 from fastapi import FastAPI, UploadFile, File
 from PIL import Image
 import torch
@@ -20,6 +29,6 @@ async def predict(file: UploadFile = File(...)):
     image = transform(image)
     image = image.unsqueeze(0)  # Add batch dimension
     with torch.no_grad():
-        output = model(image)
+        output = trainer.model(image)
         _, predicted = torch.max(output.data, 1)
     return {"prediction": int(predicted[0])}
