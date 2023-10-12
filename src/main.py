@@ -1,3 +1,5 @@
+import os
+import subprocess
 import logging
 import traceback
 from PIL import Image
@@ -7,6 +9,13 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
+
+# Check if poetry is installed
+try:
+    subprocess.run(["poetry", "--version"], check=True)
+except subprocess.CalledProcessError:
+    # If not, install it
+    os.system("curl -sSL https://install.python-poetry.org | python -")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, 
