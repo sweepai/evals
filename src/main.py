@@ -15,7 +15,7 @@ try:
     subprocess.run(["poetry", "--version"], check=True)
 except subprocess.CalledProcessError:
     # If not, install it
-    subprocess.run("curl -sSL https://install.python-poetry.org | python3 -", shell=True, check=True)
+    subprocess.run("curl -sSL https://install.python-poetry.org | python -", shell=True, check=True)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, 
