@@ -19,10 +19,14 @@ app = FastAPI()
 
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
+    # Preprocess the image
     image = Image.open(file.file).convert("L")
     image = transform(image)
     image = image.unsqueeze(0)  # Add batch dimension
+
+    # Make a prediction with the loaded model
     with torch.no_grad():
         output = model(image)
         _, predicted = torch.max(output.data, 1)
+
     return {"prediction": int(predicted[0])}
