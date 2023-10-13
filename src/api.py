@@ -2,10 +2,11 @@ from fastapi import FastAPI, UploadFile, File
 from PIL import Image
 import torch
 from torchvision import transforms
-from main import Net  # Importing Net class from main.py
+from main import MNISTTrainer  # Importing MNISTTrainer class from main.py
 
-# Load the model
-model = Net()
+# Initialize the trainer and load the model
+trainer = MNISTTrainer()
+model = trainer.define_model()
 model.load_state_dict(torch.load("mnist_model.pth"))
 model.eval()
 
