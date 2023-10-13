@@ -18,6 +18,14 @@ trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 # Step 2: Define the PyTorch Model
 class Net(nn.Module):
     def __init__(self):
+        """
+        Initializes the Net class which is a subclass of the nn.Module class.
+        Defines the architecture of the neural network with three fully connected layers (fc1, fc2, fc3).
+        
+        Inputs: None apart from self.
+        Outputs: None.
+        Side effects: Modifies the state of the Net instance by setting the fc1, fc2, and fc3 attributes.
+        """
         super().__init__()
         self.fc1 = nn.Linear(28 * 28, 128)
         self.fc2 = nn.Linear(128, 64)
