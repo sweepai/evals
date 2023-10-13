@@ -1,3 +1,6 @@
+import logging
+logging.basicConfig(filename='training.log', level=logging.ERROR)
+
 from PIL import Image
 import torch
 import torch.nn as nn
@@ -38,11 +41,14 @@ criterion = nn.NLLLoss()
 # Training loop
 epochs = 3
 for epoch in range(epochs):
-    for images, labels in trainloader:
-        optimizer.zero_grad()
-        output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+    try:
+        for images, labels in trainloader:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+    except Exception as e:
+        logging.error(f"Error occurred during training: {e}")
 
 torch.save(model.state_dict(), "mnist_model.pth")
