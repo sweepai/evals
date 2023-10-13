@@ -6,16 +6,6 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
 
-# Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
-
-trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
-trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
-
-# Step 2: Define the PyTorch Model
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
@@ -30,19 +20,40 @@ class Net(nn.Module):
         x = self.fc3(x)
         return nn.functional.log_softmax(x, dim=1)
 
-# Step 3: Train the Model
-model = Net()
-optimizer = optim.SGD(model.parameters(), lr=0.01)
-criterion = nn.NLLLoss()
+class MNISTTrainer:
+    def __init__(self):
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,))
+        ])
+        self.criterion = nn.NLLLoss()
+        self.epochs = 3
 
-# Training loop
-epochs = 3
-for epoch in range(epochs):
-    for images, labels in trainloader:
-        optimizer.zero_grad()
-        output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+    def load_data(self):
+        trainset = datasets.MNIST('.', download=True, train=True, transform=self.transform)
+        trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
+        return trainloader
 
-torch.save(model.state_dict(), "mnist_model.pth")
+    def define_model(self):
+        model = Net()
+        optimizer = optim.SGD(model.parameters(), lr=0.01)
+        return model, optimizer
+
+    def train_model(self, trainloader, model, optimizer):
+        for epoch in range(self.epochs):
+            for images, labels in trainloader:
+                optimizer.zero_grad()
+                output = model(images)
+                loss = self.criterion(output, labels)
+                loss.backward()
+                optimizer.step()
+        return model
+
+    def save_model(self, model):
+        torch.save(model.state_dict(), "mnist_model.pth")
+
+trainer = MNISTTrainer()
+trainloader = trainer.load_data()
+model, optimizer = trainer.define_model()
+trained_model = trainer.train_model(trainloader, model, optimizer)
+trainer.save_model(trained_model)
