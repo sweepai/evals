@@ -6,39 +6,54 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
 
-# Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
-
-trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
-trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
-
-# Step 2: Define the PyTorch Model
-class Net(nn.Module):
+class MNISTTrainer:
     def __init__(self):
-        super().__init__()
-        self.fc1 = nn.Linear(28 * 28, 128)
-        self.fc2 = nn.Linear(128, 64)
-        self.fc3 = nn.Linear(64, 10)
-    
-    def forward(self, x):
-        x = x.view(-1, 28 * 28)
-        x = nn.functional.relu(self.fc1(x))
-        x = nn.functional.relu(self.fc2(x))
-        x = self.fc3(x)
-        return nn.functional.log_softmax(x, dim=1)
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,))
+        ])
 
-# Step 3: Train the Model
-model = Net()
+    def load_data(self):
+        trainset = datasets.MNIST('.', download=True, train=True, transform=self.transform)
+        trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
+        return trainloader
+
+    def define_model(self):
+        class Net(nn.Module):
+            def __init__(self, trainloader):
+                super().__init__()
+                self.trainloader = trainloader
+                self.fc1 = nn.Linear(28 * 28, 128)
+                self.fc2 = nn.Linear(128, 64)
+                self.fc3 = nn.Linear(64, 10)
+            
+            def forward(self, x):
+                x = x.view(-1, 28 * 28)
+                x = nn.functional.relu(self.fc1(x))
+                x = nn.functional.relu(self.fc2(x))
+                x = self.fc3(x)
+                return nn.functional.log_softmax(x, dim=1)
+
+        return Net
+
+# Create an instance of MNISTTrainer
+trainer = MNISTTrainer()
+
+# Load the data
+trainloader = trainer.load_data()
+
+# Define the model
+Net = trainer.define_model()
+model = Net(trainloader)
+
+# Train the model
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
 # Training loop
 epochs = 3
 for epoch in range(epochs):
-    for images, labels in trainloader:
+    for images, labels in model.trainloader:
         optimizer.zero_grad()
         output = model(images)
         loss = criterion(output, labels)
