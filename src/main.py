@@ -1,21 +1,35 @@
+"""
+This script is used to load and preprocess the MNIST dataset, define a PyTorch model, and train the model.
+"""
+
+# PIL is used for opening, manipulating, and saving many different image file formats
 from PIL import Image
+# PyTorch is an open source machine learning library based on the Torch library
 import torch
+# torch.nn is a sublibrary of PyTorch, used for building neural networks
 import torch.nn as nn
+# torch.optim is a package implementing various optimization algorithms
 import torch.optim as optim
+# torchvision is a library for PyTorch that provides access to popular datasets, model architectures, and image transformations for computer vision
 from torchvision import datasets, transforms
+# DataLoader is a PyTorch function for loading and representing data
 from torch.utils.data import DataLoader
+# numpy is a library for the Python programming language, adding support for large, multi-dimensional arrays and matrices, along with a large collection of high-level mathematical functions to operate on these arrays
 import numpy as np
 
 # Step 1: Load MNIST Data and Preprocess
+# 'transform' is used to define the transformations to be applied to the images in the dataset
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
 
+# 'trainset' and 'trainloader' are used to load and preprocess the training data
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
 # Step 2: Define the PyTorch Model
+# 'Net' class is used to define the structure of the neural network
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
