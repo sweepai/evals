@@ -6,19 +6,21 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
 
-# Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
+class MNISTDataLoader:
+    def __init__(self):
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.5,), (0.5,))
+        ])
 
-trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
-trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
+        self.trainset = datasets.MNIST('.', download=True, train=True, transform=self.transform)
+        self.trainloader = DataLoader(self.trainset, batch_size=64, shuffle=True)
 
 # Step 2: Define the PyTorch Model
 class Net(nn.Module):
-    def __init__(self):
+    def __init__(self, data_loader):
         super().__init__()
+        self.data_loader = data_loader
         self.fc1 = nn.Linear(28 * 28, 128)
         self.fc2 = nn.Linear(128, 64)
         self.fc3 = nn.Linear(64, 10)
@@ -31,14 +33,15 @@ class Net(nn.Module):
         return nn.functional.log_softmax(x, dim=1)
 
 # Step 3: Train the Model
-model = Net()
+data_loader = MNISTDataLoader()
+model = Net(data_loader)
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
 # Training loop
 epochs = 3
 for epoch in range(epochs):
-    for images, labels in trainloader:
+    for images, labels in data_loader.trainloader:
         optimizer.zero_grad()
         output = model(images)
         loss = criterion(output, labels)
