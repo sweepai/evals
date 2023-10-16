@@ -1,7 +1,7 @@
-from fastapi import FastAPI, UploadFile, File
-from PIL import Image
 import torch
-from torchvision import transforms
+from fastapi import FastAPI, File, UploadFile
+from PIL import Image
+
 from main import MNISTTrainer  # Importing MNISTTrainer class from main.py
 
 # Create an instance of MNISTTrainer and run the training
@@ -10,10 +10,11 @@ model = trainer.run()
 
 app = FastAPI()
 
+
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
     image = Image.open(file.file).convert("L")
-    image = transform(image)
+    image = trainer.preprocess(image)
     image = image.unsqueeze(0)  # Add batch dimension
     with torch.no_grad():
         output = model(image)
