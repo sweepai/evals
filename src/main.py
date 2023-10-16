@@ -31,7 +31,9 @@ class Net(nn.Module):
         return nn.functional.log_softmax(x, dim=1)
 
 # Step 3: Train the Model
-model = Net()
+from src.cnn import CNN
+
+model = CNN()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
