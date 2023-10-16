@@ -1,20 +1,21 @@
-from PIL import Image
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import numpy as np
+from torchvision import datasets, transforms
+
 
 class MNISTTrainer:
     def __init__(self):
-        self.transform = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,))
-        ])
+        self.transform = transforms.Compose(
+            [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+        )
 
     def load_data(self):
-        trainset = datasets.MNIST('.', download=True, train=True, transform=self.transform)
+        trainset = datasets.MNIST(
+            ".", download=True, train=True, transform=self.transform
+        )
         trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
         return trainloader
 
@@ -32,17 +33,13 @@ class MNISTTrainer:
                 x = nn.functional.relu(self.fc2(x))
                 x = self.fc3(x)
                 return nn.functional.log_softmax(x, dim=1)
-        return Net()
 
-# Step 3: Train the Model
-model = Net()
-optimizer = optim.SGD(model.parameters(), lr=0.01)
-criterion = nn.NLLLoss()
+        model = Net()
+        return model
 
-    def train_model(self, trainloader, model):
-        optimizer = optim.SGD(model.parameters(), lr=0.01)
+    def train_model(self, trainloader, model, epochs, lr):
+        optimizer = optim.SGD(model.parameters(), lr=lr)
         criterion = nn.NLLLoss()
-        epochs = 3
         for epoch in range(epochs):
             for images, labels in trainloader:
                 optimizer.zero_grad()
@@ -52,12 +49,13 @@ criterion = nn.NLLLoss()
                 optimizer.step()
         return model
 
-    def run(self):
+    def run(self, epochs=3, lr=0.01, save_path="mnist_model.pth"):
         trainloader = self.load_data()
         model = self.define_model()
-        model = self.train_model(trainloader, model)
-        torch.save(model.state_dict(), "mnist_model.pth")
+        model = self.train_model(trainloader, model, epochs, lr)
+        torch.save(model.state_dict(), save_path)
         return model
+
 
 trainer = MNISTTrainer()
 trainer.run()
