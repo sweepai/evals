@@ -1,17 +1,18 @@
-from PIL import Image
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
 from cnn import CNN
+
 
 def train(model, trainloader):
     optimizer = optim.SGD(model.parameters(), lr=0.01)
     criterion = nn.NLLLoss()
 
     epochs = 3
-    for epoch in range(epochs):
+    for _epoch in range(epochs):
         for images, labels in trainloader:
             optimizer.zero_grad()
             output = model(images)
@@ -20,13 +21,13 @@ def train(model, trainloader):
             optimizer.step()
     return model
 
-# Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
 
-trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
+# Step 1: Load MNIST Data and Preprocess
+transform = transforms.Compose(
+    [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+)
+
+trainset = datasets.MNIST(".", download=True, train=True, transform=transform)
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
 # Step 2: Define the PyTorch Model
