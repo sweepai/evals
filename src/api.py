@@ -5,9 +5,8 @@ from torchvision import transforms
 from main import Net  # Importing Net class from main.py
 
 # Instantiate the trainer and load the model
-trainer = MNISTTrainer()
-trainer.load_model("mnist_model.pth")
-model = trainer.model
+model = Net()
+model.load_state_dict(torch.load("mnist_model.pth"))
 model.eval()
 
 # Transform used for preprocessing the image
@@ -19,7 +18,9 @@ transform = transforms.Compose([
 app = FastAPI()
 
 @app.post("/predict/")
-async def predict(file: UploadFile = File(...)):
+async def predict(file: UploadFile = None):
+    if file is None:
+        file = File(...)
     image = Image.open(file.file).convert("L")
     image = transform(image)
     image = image.unsqueeze(0)  # Add batch dimension
