@@ -6,9 +6,8 @@ from torchvision import transforms
 from main import Net  # Importing Net class from main.py
 
 # Instantiate the trainer and load the model
-model = Net()
-model.load_state_dict(torch.load("mnist_model.pth"))
-model.eval()
+trainer = MNISTTrainer()
+model = trainer.load_model("mnist_model.pth")
 
 # Transform used for preprocessing the image
 transform = transforms.Compose(
