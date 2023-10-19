@@ -5,11 +5,7 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
 from cnn import CNN
-
-
-def train(model, trainloader):
-    optimizer = optim.SGD(model.parameters(), lr=0.01)
-    criterion = nn.NLLLoss()
+from train import train
 
     epochs = 3
     for _epoch in range(epochs):
