@@ -6,6 +6,20 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from cnn import CNN
 
+def train(model, trainloader):
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    criterion = nn.NLLLoss()
+
+    epochs = 3
+    for epoch in range(epochs):
+        for images, labels in trainloader:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+    return model
+
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
     transforms.ToTensor(),
