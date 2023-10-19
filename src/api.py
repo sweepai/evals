@@ -4,9 +4,10 @@ import torch
 from torchvision import transforms
 from main import Net  # Importing Net class from main.py
 
-# Load the model
-model = Net()
-model.load_state_dict(torch.load("mnist_model.pth"))
+# Instantiate the trainer and load the model
+trainer = MNISTTrainer()
+trainer.load_model("mnist_model.pth")
+model = trainer.model
 model.eval()
 
 # Transform used for preprocessing the image
