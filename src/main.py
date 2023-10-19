@@ -1,15 +1,15 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
 
 class MNISTTrainer:
     def __init__(self):
-        self.transform = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,))
-        ])
+        self.transform = transforms.Compose(
+            [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+        )
         self.trainset = None
         self.trainloader = None
         self.model = None
@@ -18,7 +18,9 @@ class MNISTTrainer:
         self.epochs = 3
 
     def load_data(self):
-        self.trainset = datasets.MNIST('.', download=True, train=True, transform=self.transform)
+        self.trainset = datasets.MNIST(
+            ".", download=True, train=True, transform=self.transform
+        )
         self.trainloader = DataLoader(self.trainset, batch_size=64, shuffle=True)
 
     class Net(nn.Module):
@@ -53,6 +55,7 @@ class MNISTTrainer:
 
     def load_model(self, path="mnist_model.pth"):
         self.model.load_state_dict(torch.load(path))
+
 
 trainer = MNISTTrainer()
 trainer.load_data()
