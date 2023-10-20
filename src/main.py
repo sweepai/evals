@@ -4,7 +4,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import numpy as np
 from cnn import CNN
 
 # Step 1: Load MNIST Data and Preprocess
@@ -20,5 +19,17 @@ trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 model = CNN()
 
 # Step 3: Train the Model
+def train(model, trainloader):
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    criterion = nn.NLLLoss()
+    epochs = 3
+    for epoch in range(epochs):
+        for images, labels in trainloader:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+
 train(model, trainloader)
 torch.save(model.state_dict(), "mnist_cnn_model.pth")
