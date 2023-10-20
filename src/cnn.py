@@ -2,8 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.utils.data import DataLoader
+
 
 class CNN(nn.Module):
     """
@@ -17,7 +16,7 @@ class CNN(nn.Module):
         super(CNN, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, kernel_size=3, stride=1, padding=1)
         self.conv2 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
-        self.fc1 = nn.Linear(7*7*64, 128)
+        self.fc1 = nn.Linear(7 * 7 * 64, 128)
         self.fc2 = nn.Linear(128, 10)
 
     def forward(self, x):
@@ -40,9 +39,8 @@ class CNN(nn.Module):
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(self.parameters(), lr=0.01)
 
-        for epoch in range(10):  # loop over the dataset multiple times
-            running_loss = 0.0
-            for i, data in enumerate(trainloader, 0):
+        for _epoch in range(10):  # loop over the dataset multiple times
+            for _i, data in enumerate(trainloader, 0):
                 inputs, labels = data
                 optimizer.zero_grad()
                 outputs = self(inputs)
