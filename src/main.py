@@ -50,3 +50,9 @@ class MNISTTrainer:
 
     def save_model(self, model):
         torch.save(model.state_dict(), "mnist_model.pth")
+    
+    def load_model(self, model_path):
+        model = self.define_model()
+        model.load_state_dict(torch.load(model_path))
+        model.eval()
+        return model
