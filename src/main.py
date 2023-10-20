@@ -5,7 +5,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
-from cnn import CNN
+from cnn import CNN, train
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
