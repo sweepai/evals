@@ -6,7 +6,7 @@ from main import Net  # Importing Net class from main.py
 
 # Load the model
 model = Net()
-model.load_state_dict(torch.load("mnist_model.pth"))
+model.load_state_dict(torch.load("mnist_cnn_model.pth"))
 model.eval()
 
 # Transform used for preprocessing the image
