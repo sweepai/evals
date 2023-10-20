@@ -33,8 +33,8 @@
 <!-- 2d513612&#45;5bd6&#45;4bb0&#45;a1cd&#45;929c88dd2651 -->
 <g id="node4" class="node">
 <title>2d513612&#45;5bd6&#45;4bb0&#45;a1cd&#45;929c88dd2651</title>
-<ellipse fill="white" stroke="black" cx="336.5" cy="-115.87" rx="70.92" ry="26.74"/>
-<text text-anchor="middle" x="336.5" y="-119.67" font-family="Times,serif" font-size="14.00">▶ Modify</text>
+<ellipse fill="yellow" stroke="black" cx="336.5" cy="-115.87" rx="70.92" ry="26.74"/>
+<text text-anchor="middle" x="336.5" y="-119.67" font-family="Times,serif" font-size="14.00">↻ Modify</text>
 <text text-anchor="middle" x="336.5" y="-104.67" font-family="Times,serif" font-size="14.00">src/main.py</text>
 </g>
 <!-- 1aff1150&#45;2996&#45;41b5&#45;9b16&#45;a3a249ec388c&#45;&gt;2d513612&#45;5bd6&#45;4bb0&#45;a1cd&#45;929c88dd2651 -->
@@ -47,8 +47,8 @@
 <!-- 20be7538&#45;d254&#45;4d34&#45;8b57&#45;d719109ecee3 -->
 <g id="node6" class="node">
 <title>20be7538&#45;d254&#45;4d34&#45;8b57&#45;d719109ecee3</title>
-<polygon fill="yellow" stroke="black" points="168.5,-38 70.5,-38 70.5,0 168.5,0 168.5,-38"/>
-<text text-anchor="middle" x="119.5" y="-22.8" font-family="Times,serif" font-size="14.00">↻ Check</text>
+<polygon fill="green" stroke="black" points="168.5,-38 70.5,-38 70.5,0 168.5,0 168.5,-38"/>
+<text text-anchor="middle" x="119.5" y="-22.8" font-family="Times,serif" font-size="14.00">✓ Check</text>
 <text text-anchor="middle" x="119.5" y="-7.8" font-family="Times,serif" font-size="14.00">src/cnn.py?</text>
 </g>
 <!-- 1aff1150&#45;2996&#45;41b5&#45;9b16&#45;a3a249ec388c&#45;&gt;20be7538&#45;d254&#45;4d34&#45;8b57&#45;d719109ecee3 -->
