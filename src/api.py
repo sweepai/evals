@@ -2,11 +2,9 @@ from fastapi import FastAPI, UploadFile, File
 from PIL import Image
 import torch
 from torchvision import transforms
-from main import Net  # Importing Net class from main.py
-
-# Load the model
-model = Net()
-model.load_state_dict(torch.load("mnist_model.pth"))
+from cnn import CNN  # Importing CNN class from cnn.py
+model = CNN()
+model.load_state_dict(torch.load("mnist_cnn_model.pth"))
 model.eval()
 
 # Transform used for preprocessing the image
