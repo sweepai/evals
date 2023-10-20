@@ -19,5 +19,19 @@ trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 model = CNN()
 
 # Step 3: Train the Model
-train(model, trainloader)
+def train(model, trainloader):
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    criterion = nn.NLLLoss()
+
+    epochs = 3
+    for epoch in range(epochs):
+        for images, labels in trainloader:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+    return model
+
+model = train(model, trainloader)
 torch.save(model.state_dict(), "mnist_cnn_model.pth")
