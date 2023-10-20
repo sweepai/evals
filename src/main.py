@@ -19,5 +19,18 @@ trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 model = CNN()
 
 # Step 3: Train the Model
+def train(model, trainloader):
+    optimizer = optim.Adam(model.parameters())
+    criterion = nn.CrossEntropyLoss()
+    epochs = 10
+    for epoch in range(epochs):
+        for images, labels in trainloader:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        print(f"Epoch {epoch+1}/{epochs} Loss: {loss.item()}")
+
 train(model, trainloader)
 torch.save(model.state_dict(), "mnist_cnn_model.pth")
