@@ -18,5 +18,6 @@ def test_transform():
         assert output == mock_image
 
 def test_trainloader():
+    trainset = mock.Mock()
     with mock.patch('torch.utils.data.DataLoader', return_value=trainloader) as mock_dataloader:
-        self.assertEqual(mock_dataloader.call_args, mock.call(trainset, batch_size=64, shuffle=True))
+        mock_dataloader.assertEqual(mock_dataloader.call_args, mock.call(trainset, batch_size=64, shuffle=True))
