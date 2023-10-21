@@ -12,3 +12,6 @@ torch = "*"
 torchvision = "*"
 pillow = "*"
 pylint = "*"
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+
