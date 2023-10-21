@@ -13,7 +13,7 @@ def test_data_loading_and_preprocessing():
         with mock.patch.object(DataLoader, '__init__') as mock_dataloader:
             mock_mnist.return_value = None
             mock_dataloader.return_value = None
-            assert trainloader is not None
+            pytest.assert_(trainloader is not None, "trainloader should not be None")
             mock_mnist.assert_called_once_with('.', download=True, train=True, transform=transform)
             mock_dataloader.assert_called_once_with(None, batch_size=64, shuffle=True)
 
@@ -23,5 +23,5 @@ def test_model_definition():
     """
     with mock.patch.object(torch.nn, 'Module') as mock_module:
         model = Net()
-        assert model is not None
+        pytest.assert_(model is not None, "model should not be None")
         mock_module.assert_called()
