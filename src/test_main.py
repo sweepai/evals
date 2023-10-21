@@ -36,4 +36,4 @@ def test_model_definition():
         assert model.fc2.in_features == 128, "Input features of the second layer should be 128"
         assert model.fc2.out_features == 64, "Output features of the second layer should be 64"
         assert model.fc3.in_features == 64, "Input features of the third layer should be 64"
-        assert model.fc3.out_features == 10, "Output features of the third layer should be 10"
+        pytest.assert_(model.fc3.out_features == 10, "Output features of the third layer should be 10")
