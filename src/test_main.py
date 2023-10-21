@@ -27,7 +27,7 @@ def test_model_definition():
     """
     Test the model definition.
     """
-    with mock.patch.object(torch.nn, "Module") as mock_module:
+    with mock.patch.object(Net, "__init__", return_value=None) as mock_net:
         model = Net()
         pytest.assert_not_none(model)
         mock_net.assert_called()
