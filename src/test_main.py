@@ -22,4 +22,4 @@ def test_model_definition():
     """
     with patch('main.Net', new=Mock()) as mock_model:
         assert mock_model.called
-        assert isinstance(mock_model.return_value, Net)
+        pytest.assertIsInstance(mock_model.return_value, Net)
