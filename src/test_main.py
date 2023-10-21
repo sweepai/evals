@@ -1,7 +1,6 @@
 from unittest import mock
 
 import pytest
-import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets
 
