@@ -10,7 +10,7 @@ def test_data_loading_and_preprocessing():
     with patch('main.datasets.MNIST', new=Mock()) as mock_dataset, patch('main.DataLoader', new=Mock()) as mock_dataloader:
         assert mock_dataset.called
         assert mock_dataset.call_args[1]['transform'] == transform
-        assert mock_dataloader.called
+        pytest.assertTrue(mock_dataloader.called)
         pytest.assertEqual(mock_dataloader.call_args[0][0], trainset)
         pytest.assertEqual(mock_dataloader.call_args[1]['batch_size'], 64)
         pytest.assertTrue(mock_dataloader.call_args[1]['shuffle'])
