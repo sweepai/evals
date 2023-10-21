@@ -21,5 +21,5 @@ def test_model_definition():
     This test asserts that the model is defined correctly.
     """
     with patch('main.Net', new=Mock()) as mock_model:
-        assert mock_model.called
+        pytest.assertTrue(mock_model.called)
         pytest.assertIsInstance(mock_model.return_value, Net)
