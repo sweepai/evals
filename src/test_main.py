@@ -30,4 +30,4 @@ def test_model_definition():
     with mock.patch.object(torch.nn, "Module") as mock_module:
         model = Net()
         pytest.assert_not_none(model)
-        mock_module.assert_called()
+        mock_net.assert_called()
