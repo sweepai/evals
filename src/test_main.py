@@ -12,7 +12,7 @@ def test_data_loading_and_preprocessing():
         assert mock_dataset.call_args[1]['transform'] == transform
         assert mock_dataloader.called
         assert mock_dataloader.call_args[0][0] == trainset
-        assert mock_dataloader.call_args[1]['batch_size'] == 64
+        pytest.assertEqual(mock_dataloader.call_args[1]['batch_size'], 64)
         pytest.assertTrue(mock_dataloader.call_args[1]['shuffle'])
 
 def test_model_definition():
