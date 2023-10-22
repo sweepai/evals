@@ -1,0 +1,25 @@
+import pytest
+from unittest.mock import Mock, patch
+from main import transform, trainset, trainloader, Net
+
+def test_data_loading_and_preprocessing():
+    """
+    Test the data loading and preprocessing steps.
+    This test asserts that the correct transformations are applied to the dataset and that the DataLoader is created with the correct parameters.
+    """
+    with patch('main.datasets.MNIST', new=Mock()) as mock_dataset, patch('main.DataLoader', new=Mock()) as mock_dataloader:
+        assert mock_dataset.called
+        assert mock_dataset.call_args[1]['transform'] == transform
+        assert mock_dataloader.called
+        assert mock_dataloader.call_args[0][0] == trainset
+        assert mock_dataloader.call_args[1]['batch_size'] == 64
+        assert mock_dataloader.call_args[1]['shuffle'] == True
+
+def test_model_definition():
+    """
+    Test the model definition.
+    This test asserts that the model is defined correctly.
+    """
+    with patch('main.Net', new=Mock()) as mock_model:
+        assert mock_model.called
+        assert isinstance(mock_model.return_value, Net)
