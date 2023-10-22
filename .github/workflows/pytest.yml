@@ -1,19 +1,24 @@
+# This workflow is used to run Pytest on every push to the repository.
 name: Pytest
 
 on: [push]
 
+# The "pytest" job is responsible for setting up the environment and running Pytest.
 jobs:
   pytest:
     runs-on: ubuntu-latest
     steps:
+    # This step checks out the repository code.
     - name: Check out code
       uses: actions/checkout@v2
 
+    # This step sets up Python 3.x for the job.
     - name: Set up Python 3.x
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
 
+    # This step caches Poetry dependencies to speed up build times and reduce network traffic.
     # Caching Poetry dependencies
     - name: Cache Poetry dependencies
       uses: actions/cache@v2
@@ -23,13 +28,16 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-poetry-
 
+    # This step installs Poetry, which is used for dependency management.
     - name: Install Poetry
       run: |
         curl -sSL https://install.python-poetry.org | python3 -
 
+    # This step installs the project dependencies using Poetry.
     - name: Install Dependencies
       run: |
         poetry install
 
+    # This step runs Pytest to execute the tests.
     - name: Run Pytest
       run: poetry run pytest
