@@ -10,6 +10,8 @@ rules:
   - "There should be no unused imports or variables."
   - "Code should be properly commented and include docstrings for functions and classes."
 
+repo_description: "Use pytest to write unit tests."
+
 # This is the branch that Sweep will develop from and make pull requests to. Most people use 'main' or 'master' but some users also use 'dev' or 'staging'.
 branch: 'main'
 
