@@ -4,7 +4,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import numpy as np
 
 class MNISTTrainer:
     def load_data(self):
@@ -60,7 +59,7 @@ criterion = nn.NLLLoss()
 
 # Training loop
 epochs = 3
-for epoch in range(epochs):
+for _ in range(epochs):
     for images, labels in trainloader:
         optimizer.zero_grad()
         output = model(images)
