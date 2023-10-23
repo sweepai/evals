@@ -5,52 +5,45 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
-class MNISTTrainer:
-    def load_data(self):
-        transform = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,))
-        ])
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.5,), (0.5,))
+])
 
-        trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
-        trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
-        return trainloader
+trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
+trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
-    def define_model(self):
-        class Net(nn.Module):
-            def __init__(self, trainloader):
-                super().__init__()
-                self.trainloader = trainloader
-                self.fc1 = nn.Linear(28 * 28, 128)
-                self.fc2 = nn.Linear(128, 64)
-                self.fc3 = nn.Linear(64, 10)
+class Net(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = nn.Linear(28 * 28, 128)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, 10)
 
-            def forward(self, x):
-                x = x.view(-1, 28 * 28)
-                x = nn.functional.relu(self.fc1(x))
-                x = nn.functional.relu(self.fc2(x))
-                x = self.fc3(x)
-                return nn.functional.log_softmax(x, dim=1)
+    def forward(self, x):
+        x = x.view(-1, 28 * 28)
+        x = nn.functional.relu(self.fc1(x))
+        x = nn.functional.relu(self.fc2(x))
+        x = self.fc3(x)
+        return nn.functional.log_softmax(x, dim=1)
 
-            def train(self, epochs=3):
-                optimizer = optim.SGD(self.parameters(), lr=0.01)
-                criterion = nn.NLLLoss()
+    def train(self, epochs=3):
+        optimizer = optim.SGD(self.parameters(), lr=0.01)
+        criterion = nn.NLLLoss()
 
-                for epoch in range(epochs):
-                    for images, labels in self.trainloader:
-                        optimizer.zero_grad()
-                        output = self(images)
-                        loss = criterion(output, labels)
-                        loss.backward()
-                        optimizer.step()
+        for epoch in range(epochs):
+            for images, labels in trainloader:
+                optimizer.zero_grad()
+                output = self(images)
+                loss = criterion(output, labels)
+                loss.backward()
+                optimizer.step()
 
-            def save(self, path="mnist_model.pth"):
-                torch.save(self.state_dict(), path)
+    def save(self, path="mnist_model.pth"):
+        torch.save(self.state_dict(), path)
 
-            def load(self, path="mnist_model.pth"):
-                self.load_state_dict(torch.load(path))
-
-        return Net
+    def load(self, path="mnist_model.pth"):
+        self.load_state_dict(torch.load(path))
 
 # Step 3: Train the Model
 model = Net()
