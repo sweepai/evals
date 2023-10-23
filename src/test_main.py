@@ -25,6 +25,8 @@ def test_data_loading_and_preprocessing(mocker: MockerFixture):
 
 def test_model_definition():
     model = Net()
+    input_data = torch.randn(64, 1, 28, 28)
+    output = model(input_data)
 
     pytest.assume(isinstance(model, Net))
     pytest.assume(isinstance(model.fc1, torch.nn.Linear))
