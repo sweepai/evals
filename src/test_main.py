@@ -20,22 +20,18 @@ def test_data_loading_and_preprocessing(mocker: MockerFixture):
     mock_mnist.assert_called_once_with('.', download=True, train=True, transform=transform)
     mock_dataloader.assert_called_once_with(trainset, batch_size=64, shuffle=True)
 
-    assert isinstance(trainset, datasets.MNIST)
-    assert isinstance(trainloader, DataLoader)
+    pytest.assume(isinstance(trainset, datasets.MNIST))
+    pytest.assume(isinstance(trainloader, DataLoader))
 
 def test_model_definition():
     model = Net()
 
-    assert isinstance(model, Net)
-    assert isinstance(model.fc1, torch.nn.Linear)
-    assert isinstance(model.fc2, torch.nn.Linear)
-    assert isinstance(model.fc3, torch.nn.Linear)
-
-    input_data = torch.randn(64, 1, 28, 28)
-    output = model(input_data)
-
-    assert output.size() == (64, 10)
-    assert output.dtype == torch.float32
+    pytest.assume(isinstance(model, Net))
+    pytest.assume(isinstance(model.fc1, torch.nn.Linear))
+    pytest.assume(isinstance(model.fc2, torch.nn.Linear))
+    pytest.assume(isinstance(model.fc3, torch.nn.Linear))
+    pytest.assume(output.size() == (64, 10))
+    pytest.assume(output.dtype == torch.float32)
 
 def test_forward_method(mocker: MockerFixture):
     mock_relu = mocker.patch('torch.nn.functional.relu')
@@ -49,5 +45,5 @@ def test_forward_method(mocker: MockerFixture):
     mock_relu.assert_any_call(model.fc2(mock_relu.return_value))
     mock_log_softmax.assert_called_once_with(model.fc3(mock_relu.return_value), dim=1)
 
-    assert output.size() == (64, 10)
-    assert output.dtype == torch.float32
+    pytest.assume(output.size() == (64, 10))
+    pytest.assume(output.dtype == torch.float32)
