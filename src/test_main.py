@@ -11,7 +11,7 @@ import io
 def test_net_init(mocker: MockerFixture):
     mock_super_init = mocker.patch('torch.nn.Module.__init__')
     net = Net()
-    pytest.assert mock_super_init.assert_called_once()
+    assert mock_super_init.assert_called_once(), 'Expected super init to be called once'
 
 def test_net_forward(mocker: MockerFixture):
     mock_input = mocker.patch('torch.Tensor')
@@ -19,9 +19,9 @@ def test_net_forward(mocker: MockerFixture):
     mock_log_softmax = mocker.patch('torch.nn.functional.log_softmax')
     net = Net()
     net.forward(mock_input)
-    mock_relu.assert_any_call(net.fc1(mock_input.view(-1, 28 * 28)))
-    mock_relu.assert_any_call(net.fc2(mock_relu.return_value))
-    mock_log_softmax.assert_called_once_with(net.fc3(mock_relu.return_value), dim=1)
+    assert mock_relu.assert_any_call(net.fc1(mock_input.view(-1, 28 * 28))), 'Expected relu to be called with fc1 output'
+    assert mock_relu.assert_any_call(net.fc2(mock_relu.return_value)), 'Expected relu to be called with fc2 output'
+    assert mock_log_softmax.assert_called_once_with(net.fc3(mock_relu.return_value), dim=1), 'Expected log softmax to be called with fc3 output'
 
 def test_predict(mocker: MockerFixture):
     mock_file = mocker.patch('fastapi.UploadFile')
@@ -29,5 +29,5 @@ def test_predict(mocker: MockerFixture):
     mock_image_open.return_value.convert.return_value = Image.new('L', (28, 28))
     client = TestClient(app)
     response = client.post("/predict/", files={"file": ("filename", io.BytesIO(), "image/png")})
-    pytest.assert response.status_code == 200, "Expected status code 200"
-    pytest.assert 'prediction' in response.json(), "Expected 'prediction' in response"
+    assert response.status_code == 200, 'Expected status code 200'
+    assert 'prediction' in response.json(), 'Expected prediction in response'
