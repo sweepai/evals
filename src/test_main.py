@@ -29,5 +29,5 @@ def test_predict(mocker: MockerFixture):
     mock_image_open.return_value.convert.return_value = Image.new('L', (28, 28))
     client = TestClient(app)
     response = client.post("/predict/", files={"file": ("filename", io.BytesIO(), "image/png")})
-    assert response.status_code == 200
-    assert 'prediction' in response.json()
+    assert response.status_code == 200, "Expected status code to be 200"
+    assert 'prediction' in response.json(), "Expected 'prediction' in response"
