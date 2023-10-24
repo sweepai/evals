@@ -2,10 +2,11 @@
 This module defines a FastAPI application that serves a PyTorch model trained on the MNIST dataset.
 It includes the necessary imports, model loading, image preprocessing, and prediction endpoint.
 """
-from fastapi import FastAPI, UploadFile, File
-from PIL import Image
 import torch
+from fastapi import FastAPI, File, UploadFile
+from PIL import Image
 from torchvision import transforms
+
 from main import Net  # Importing Net class from main.py
 
 # Load the trained PyTorch model from the saved state dictionary
@@ -14,12 +15,12 @@ model.load_state_dict(torch.load("mnist_model.pth"))
 model.eval()
 
 # Define the transformations to be applied to the images for preprocessing
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
+transform = transforms.Compose(
+    [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+)
 
 app = FastAPI()
+
 
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
