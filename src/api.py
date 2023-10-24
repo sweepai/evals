@@ -1,5 +1,5 @@
 """
-This module is used to serve a PyTorch model as a FastAPI service. It includes the necessary steps to load the model, 
+This module is used to serve a PyTorch model as a FastAPI service. It includes the necessary steps to load the model,
 preprocess the input image, and make a prediction.
 """
 
@@ -25,7 +25,7 @@ transform = transforms.Compose([
 app = FastAPI()
 
 @app.post("/predict/")
-async def predict(file: UploadFile = File(...)):
+async def predict(file: UploadFile = None):
     """
     This function takes an uploaded file as input, preprocesses the image, makes a prediction using the model, 
     and returns the prediction.
@@ -36,6 +36,8 @@ async def predict(file: UploadFile = File(...)):
     Returns:
     A dictionary containing the prediction made by the model.
     """
+    if file is None:
+        file = File(...)
     # Open the image file and convert it to grayscale
     image = Image.open(file.file).convert("L")
     
