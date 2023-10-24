@@ -1,11 +1,12 @@
-import torch
 import torch.nn as nn
 import torch.optim as optim
+
 
 class CNN(nn.Module):
     """
     Convolutional Neural Network (CNN) class.
     """
+
     def __init__(self):
         super(CNN, self).__init__()
         self.conv1 = nn.Conv2d(1, 32, kernel_size=3, stride=1, padding=1)
@@ -25,6 +26,7 @@ class CNN(nn.Module):
         x = self.fc2(x)
         return x
 
+
 def train_cnn(model, dataloader, epochs):
     """
     Function to train the CNN model.
@@ -32,7 +34,7 @@ def train_cnn(model, dataloader, epochs):
     optimizer = optim.SGD(model.parameters(), lr=0.01)
     criterion = nn.CrossEntropyLoss()
 
-    for epoch in range(epochs):
+    for _epoch in range(epochs):
         for images, labels in dataloader:
             optimizer.zero_grad()
             output = model(images)
