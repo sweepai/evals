@@ -11,7 +11,7 @@ import io
 def test_net_init(mocker: MockerFixture):
     mock_super_init = mocker.patch('torch.nn.Module.__init__')
     net = Net()
-    mock_super_init.assert_called_once()
+    pytest.assert mock_super_init.assert_called_once()
 
 def test_net_forward(mocker: MockerFixture):
     mock_input = mocker.patch('torch.Tensor')
@@ -29,5 +29,5 @@ def test_predict(mocker: MockerFixture):
     mock_image_open.return_value.convert.return_value = Image.new('L', (28, 28))
     client = TestClient(app)
     response = client.post("/predict/", files={"file": ("filename", io.BytesIO(), "image/png")})
-    assert response.status_code == 200, "Expected status code 200"
-    assert 'prediction' in response.json(), "Expected 'prediction' in response"
+    pytest.assert response.status_code == 200, "Expected status code 200"
+    pytest.assert 'prediction' in response.json(), "Expected 'prediction' in response"
