@@ -1,27 +1,30 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
 
 class MNISTTrainer:
     def __init__(self):
-        self.transform = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize((0.5,), (0.5,))
-        ])
+        self.transform = transforms.Compose(
+            [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+        )
         self.optimizer = None
         self.criterion = nn.NLLLoss()
         self.epochs = 3
 
     def load_data(self):
         """Load and preprocess MNIST data."""
-        trainset = datasets.MNIST('.', download=True, train=True, transform=self.transform)
+        trainset = datasets.MNIST(
+            ".", download=True, train=True, transform=self.transform
+        )
         trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
         return trainloader
 
     class Net(nn.Module):
         """Define the PyTorch Model."""
+
         def __init__(self):
             super().__init__()
             self.fc1 = nn.Linear(28 * 28, 128)
@@ -54,6 +57,7 @@ class MNISTTrainer:
     def save_model(self, model):
         """Save the trained model."""
         torch.save(model.state_dict(), "mnist_model.pth")
+
 
 # Create an instance of MNISTTrainer
 trainer = MNISTTrainer()
