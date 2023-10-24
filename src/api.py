@@ -22,16 +22,16 @@ transform = transforms.Compose([
 app = FastAPI()
 
 @app.post("/predict/")
-"""
-This function takes an uploaded image file, preprocesses it, and makes a prediction using the loaded PyTorch model.
-
-Parameters:
-file: The uploaded image file.
-
-Returns:
-A dictionary with the key 'prediction' and the predicted digit as the value.
-"""
 async def predict(file: UploadFile = File(...)):
+    """
+    This function takes an uploaded image file, preprocesses it, and makes a prediction using the loaded PyTorch model.
+
+    Parameters:
+    file: The uploaded image file.
+
+    Returns:
+    A dictionary with the key 'prediction' and the predicted digit as the value.
+    """
     # Open the image file and convert it to grayscale
     image = Image.open(file.file).convert("L")
     # Apply the defined transformations to the image
