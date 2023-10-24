@@ -14,22 +14,17 @@ jobs:
       with:
         python-version: '3.x'
 
-    # Caching Poetry dependencies
-    - name: Cache Poetry dependencies
+    # Caching pip dependencies
+    - name: Cache pip dependencies
       uses: actions/cache@v2
       with:
-        path: ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry-${{ hashFiles('**/pyproject.toml') }}
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-poetry-
-
-    - name: Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
+          ${{ runner.os }}-pip-
 
     - name: Install Dependencies
-      run: |
-        poetry install
+      run: pip install -r requirements.txt
 
     - name: Run Pylint
-      run: poetry run pylint src/*.py --errors-only
+      run: pylint src/*.py --errors-only
