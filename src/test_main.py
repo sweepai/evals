@@ -1,3 +1,5 @@
+from torchvision import transforms
+from torch import nn
 import pytest
 from pytest_mock import MockerFixture
 import torch
@@ -9,8 +11,7 @@ def test_data_loading_and_preprocessing(mocker: MockerFixture):
     """
     Test the data loading and preprocessing steps.
     """
-    mock_mnist = mocker.patch.object(datasets, 'MNIST')
-    mock_dataloader = mocker.patch.object(DataLoader, '__init__')
+    mock_mnist = mocker.patch('torchvision.datasets.MNIST', return_value=[])
 
     transform = transforms.Compose([
         transforms.ToTensor(),
@@ -47,7 +48,7 @@ def test_forward_method(mocker: MockerFixture):
     Test the forward method of the model.
     """
     model = Net()
-    mock_tensor = mocker.patch.object(torch, 'Tensor')
+    mock_tensor = mocker.patch('torch.Tensor.__new__', return_value=torch.Tensor(1, 28, 28))
 
     output = model(mock_tensor)
 
