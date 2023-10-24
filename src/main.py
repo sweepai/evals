@@ -1,5 +1,5 @@
 """
-This module is used to train a PyTorch model on the MNIST dataset. It includes the necessary steps to preprocess the data, 
+This module is used to train a PyTorch model on the MNIST dataset. It includes the necessary steps to preprocess the data,
 define the model, and train the model.
 """
 
@@ -9,7 +9,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import numpy as np
 
 # Step 1: Load MNIST Data and Preprocess
 # The transform variable is used to preprocess the MNIST data by converting the images to tensors and normalizing them.
@@ -67,7 +66,7 @@ criterion = nn.NLLLoss()
 epochs = 3
 
 # Start the training loop
-for epoch in range(epochs):
+for _ in range(epochs):
     # For each batch of images and labels in the trainloader
     for images, labels in trainloader:
         # Zero the gradients
