@@ -5,12 +5,15 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
+import logging
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
+
+logging.basicConfig(filename='training.log', level=logging.INFO, format='%(asctime)s %(message)s')
 
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
@@ -44,5 +47,6 @@ for epoch in range(epochs):
         loss = criterion(output, labels)
         loss.backward()
         optimizer.step()
+        logging.info('Epoch: %s, Loss: %s', epoch, loss.item())
 
 torch.save(model.state_dict(), "mnist_model.pth")
