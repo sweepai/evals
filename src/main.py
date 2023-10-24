@@ -5,6 +5,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
+import logging
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
@@ -35,14 +36,19 @@ model = Net()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
+logging.basicConfig(filename='training_errors.log', level=logging.ERROR, format='%(asctime)s %(levelname)s %(message)s')
+
 # Training loop
 epochs = 3
 for epoch in range(epochs):
-    for images, labels in trainloader:
-        optimizer.zero_grad()
-        output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+    for i, (images, labels) in enumerate(trainloader):
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        except Exception as e:
+            logging.error('Error at epoch %s, batch %s: %s', epoch, i, str(e), exc_info=True)
 
 torch.save(model.state_dict(), "mnist_model.pth")
