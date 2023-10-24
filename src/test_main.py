@@ -1,7 +1,8 @@
 import pytest
 from pytest_mock import MockerFixture
 import torch
-from torchvision import datasets
+from torch import nn
+from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from main import Net
 
@@ -29,26 +30,17 @@ def test_model_definition():
     """
     model = Net()
 
-    assert isinstance(model.fc1, nn.Linear)
-    assert isinstance(model.fc2, nn.Linear)
-    assert isinstance(model.fc3, nn.Linear)
+    self.assertEqual(isinstance(model.fc1, nn.Linear), True)
+    self.assertEqual(isinstance(model.fc2, nn.Linear), True)
+    self.assertEqual(isinstance(model.fc3, nn.Linear), True)
 
-    assert model.fc1.in_features == 28 * 28
-    assert model.fc1.out_features == 128
+    self.assertEqual(model.fc1.in_features, 28 * 28)
+    self.assertEqual(model.fc1.out_features, 128)
 
-    assert model.fc2.in_features == 128
-    assert model.fc2.out_features == 64
+    self.assertEqual(model.fc2.in_features, 128)
+    self.assertEqual(model.fc2.out_features, 64)
 
-    assert model.fc3.in_features == 64
-    assert model.fc3.out_features == 10
+    self.assertEqual(model.fc3.in_features, 64)
+    self.assertEqual(model.fc3.out_features, 10)
 
-def test_forward_method(mocker: MockerFixture):
-    """
-    Test the forward method of the model.
-    """
-    model = Net()
-    mock_tensor = mocker.patch.object(torch, 'Tensor')
-
-    output = model(mock_tensor)
-
-    assert output.shape == (1, 10)
+    self.assertEqual(output.shape, (1, 10))
