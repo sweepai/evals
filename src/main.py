@@ -10,18 +10,6 @@ import numpy as np
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
-])from PIL import Image
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.utils.data import DataLoader
-import numpy as np
-
-# Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
 ])
 import logging
 
