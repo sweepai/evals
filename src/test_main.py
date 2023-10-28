@@ -1,4 +1,5 @@
 import pytest
+from pytest_mock import mocker
 from unittest.mock import Mock
 from main import Net
 import torch
@@ -8,15 +9,15 @@ def net():
     return Net()
 
 def test_net_init(net):
-    pytest.assume(isinstance(net.fc1, torch.nn.Linear))
-    pytest.assume(isinstance(net.fc2, torch.nn.Linear))
-    pytest.assume(isinstance(net.fc3, torch.nn.Linear))
+    assert isinstance(net.fc1, torch.nn.Linear)
+    assert isinstance(net.fc2, torch.nn.Linear)
+    assert isinstance(net.fc3, torch.nn.Linear)
 
 def test_net_forward(mocker, net):
     mock_tensor = mocker.Mock(spec=torch.Tensor)
     mock_tensor.view.return_value = mock_tensor
     output = net(mock_tensor)
-    pytest.assume(isinstance(output, torch.Tensor))
+    assert isinstance(output, torch.Tensor)
 
 def test_training_loop(mocker):
     mock_images = mocker.Mock(spec=torch.Tensor)
@@ -31,4 +32,4 @@ def test_training_loop(mocker):
         loss = criterion(output, labels)
         loss.backward()
         optimizer.step()
-    pytest.assume(model.state_dict() is not None)
+    assert model.state_dict() is not None
