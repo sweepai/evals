@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import numpy as np
+import logging
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
@@ -50,5 +50,34 @@ for epoch in range(epochs):
             optimizer.step()
         except Exception as e:
             logging.exception("Error occurred during training")
+for epoch in range(epochs):
+    for images, labels in trainloader:
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        except Exception as e:
+            logging.exception("Error occurred during training")
+
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        except Exception as e:
+            logging.exception("Error occurred during training")
+=======
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
 
 torch.save(model.state_dict(), "mnist_model.pth")
