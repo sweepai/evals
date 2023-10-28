@@ -11,6 +11,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
+logging.basicConfig(filename='training.log', level=logging.ERROR)
 import logging
 
 logging.basicConfig(filename='training.log', level=logging.ERROR)
@@ -50,6 +51,34 @@ for epoch in range(epochs):
             optimizer.step()
         except Exception as e:
             logging.exception("Error occurred during training")
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
+        for epoch in range(epochs):
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        =======
+        for epoch in range(epochs):
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        for images, labels in trainloader:
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+        =======
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+        =======
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+        =======
         print(f"Starting epoch {epoch+1} of {epochs}")
         try:
             optimizer.zero_grad()
@@ -57,6 +86,8 @@ for epoch in range(epochs):
             loss = criterion(output, labels)
             loss.backward()
             optimizer.step()
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
         for epoch in range(epochs):
         print(f"Starting epoch {epoch+1} of {epochs}")
         =======
