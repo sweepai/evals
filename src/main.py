@@ -3,12 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-
-# Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
+import logging
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
@@ -44,7 +39,7 @@ criterion = nn.NLLLoss()
 
 # Training loop
 epochs = 3
-for epoch in range(epochs):
+for _ in range(epochs):
     for images, labels in trainloader:
         try:
             optimizer.zero_grad()
