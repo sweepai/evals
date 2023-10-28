@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import logging
+# No replacement needed
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
