@@ -15,14 +15,13 @@ class TestNet(unittest.TestCase):
         self.assertIsInstance(self.net.fc3, torch.nn.Linear)
 
     def test_net_forward(self):
-        mock_tensor = Mock(spec=torch.Tensor)
-        mock_tensor.view.return_value = mock_tensor
+        mock_tensor = torch.randn(784)
         output = self.net(mock_tensor)
         self.assertIsInstance(output, torch.Tensor)
 
     def test_training_loop(self):
-        mock_images = Mock(spec=torch.Tensor)
-        mock_labels = Mock(spec=torch.Tensor)
+        mock_images = torch.randn(64, 784)
+        mock_labels = torch.randint(0, 10, (64,))
         mock_trainloader = [(mock_images, mock_labels) for _ in range(10)]
         model = Net()
         optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
