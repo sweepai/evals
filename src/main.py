@@ -2,24 +2,22 @@
 This script defines the data loading and preprocessing steps, as well as the PyTorch model for MNIST digit classification.
 """
 
-from PIL import Image
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import numpy as np
+from torchvision import datasets, transforms
 
 # Step 1: Load MNIST Data and Preprocess
 # The transformation pipeline consists of two steps:
 # 1. transforms.ToTensor() - Converts the input image to PyTorch tensor.
 # 2. transforms.Normalize((0.5,), (0.5,)) - Normalizes the tensor with mean 0.5 and standard deviation 0.5.
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
+transform = transforms.Compose(
+    [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+)
 
-trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
+trainset = datasets.MNIST(".", download=True, train=True, transform=transform)
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
 # Step 2: Define the PyTorch Model
@@ -27,6 +25,8 @@ trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 This class defines the PyTorch model for MNIST digit classification.
 The model consists of three fully connected layers.
 """
+
+
 class Net(nn.Module):
     def __init__(self):
         super().__init__()
@@ -36,7 +36,7 @@ class Net(nn.Module):
         self.fc2 = nn.Linear(128, 64)
         # Third fully connected layer, takes input of size 64 and outputs size 10 (for 10 digit classes).
         self.fc3 = nn.Linear(64, 10)
-    
+
     """
     This method defines the forward pass of the model.
     It applies the following transformations to the input:
@@ -46,12 +46,14 @@ class Net(nn.Module):
     4. Applies the third fully connected layer.
     5. Applies a log softmax function to the output of the third layer.
     """
+
     def forward(self, x):
         x = x.view(-1, 28 * 28)
         x = nn.functional.relu(self.fc1(x))
         x = nn.functional.relu(self.fc2(x))
         x = self.fc3(x)
         return nn.functional.log_softmax(x, dim=1)
+
 
 # Step 3: Train the Model
 model = Net()
