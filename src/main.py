@@ -50,7 +50,18 @@ for epoch in range(epochs):
             optimizer.step()
         except Exception as e:
             logging.exception("Error occurred during training")
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
+=======
 for epoch in range(epochs):
+    print(f"Starting epoch {epoch+1} of {epochs}")
     for images, labels in trainloader:
         try:
             optimizer.zero_grad()
@@ -59,16 +70,7 @@ for epoch in range(epochs):
             loss.backward()
             optimizer.step()
         except Exception as e:
-            logging.exception("Error occurred during training")
-
-        try:
-            optimizer.zero_grad()
-            output = model(images)
-            loss = criterion(output, labels)
-            loss.backward()
-            optimizer.step()
-        except Exception as e:
-            logging.exception("Error occurred during training")
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
 =======
         print(f"Starting epoch {epoch+1} of {epochs}")
         try:
