@@ -3,16 +3,15 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-# No replacement needed
+import logging
+
+logging.basicConfig(filename='training.log', level=logging.ERROR)
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
-import logging
-
-logging.basicConfig(filename='training.log', level=logging.ERROR)
 
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
