@@ -2,10 +2,11 @@
 This script defines a FastAPI application that uses the PyTorch model defined in main.py to make predictions on uploaded images.
 """
 
-from fastapi import FastAPI, UploadFile, File
-from PIL import Image
 import torch
+from fastapi import FastAPI, File, UploadFile
+from PIL import Image
 from torchvision import transforms
+
 from main import Net  # Importing Net class from main.py
 
 # Load the model
@@ -18,12 +19,12 @@ model.eval()
 # The transformation pipeline consists of two steps:
 # 1. transforms.ToTensor() - Converts the input image to PyTorch tensor.
 # 2. transforms.Normalize((0.5,), (0.5,)) - Normalizes the tensor with mean 0.5 and standard deviation 0.5.
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
+transform = transforms.Compose(
+    [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+)
 
 app = FastAPI()
+
 
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
