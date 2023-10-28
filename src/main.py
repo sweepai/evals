@@ -6,6 +6,8 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import logging
 
+logging.basicConfig(filename='training.log', level=logging.ERROR)
+
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
     transforms.ToTensor(),
@@ -41,7 +43,75 @@ criterion = nn.NLLLoss()
 
 # Training loop
 epochs = 3
+        for epoch in range(epochs):
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        for images, labels in trainloader:
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+        =======
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+        =======
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+        =======
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
+        for epoch in range(epochs):
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        =======
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
+        for epoch in range(epochs):
+        print(f"Starting epoch {epoch+1} of {epochs}")
+=======
 for epoch in range(epochs):
+    print(f"Starting epoch {epoch+1} of {epochs}")
+    for images, labels in trainloader:
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+        =======
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+=======
+        print(f"Starting epoch {epoch+1} of {epochs}")
+        try:
+            optimizer.zero_grad()
+            output = model(images)
+            loss = criterion(output, labels)
+            loss.backward()
+            optimizer.step()
+        except Exception as e:
+            logging.exception(f"Error occurred during training in epoch {epoch+1}")
+=======
+for epoch in range(epochs):
+    print(f"Starting epoch {epoch+1} of {epochs}")
     for images, labels in trainloader:
         try:
             optimizer.zero_grad()
@@ -50,16 +120,7 @@ for epoch in range(epochs):
             loss.backward()
             optimizer.step()
         except Exception as e:
-            logging.exception("Error occurred during training")
-        except Exception as e:
             logging.exception(f"Error occurred during training in epoch {epoch+1}")
-        for epoch in range(epochs):
-        print(f"Starting epoch {epoch+1} of {epochs}")
-        =======
-        for epoch in range(epochs):
-        print(f"Starting epoch {epoch+1} of {epochs}")
-        for images, labels in trainloader:
-        try:
             optimizer.zero_grad()
             output = model(images)
             loss = criterion(output, labels)
