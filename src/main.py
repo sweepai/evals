@@ -7,31 +7,43 @@ from torch.utils.data import DataLoader
 import numpy as np
 
 # Step 1: Load MNIST Data and Preprocess
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
 
-trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
-trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
+def load_data():
+    # Step 1: Load MNIST Data and Preprocess
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,), (0.5,))
+    ])
+
+    trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
+    trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
+    return trainloader
+
+trainloader = load_data()
 
 # Step 2: Define the PyTorch Model
-class Net(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.fc1 = nn.Linear(28 * 28, 128)
-        self.fc2 = nn.Linear(128, 64)
-        self.fc3 = nn.Linear(64, 10)
-    
-    def forward(self, x):
-        x = x.view(-1, 28 * 28)
-        x = nn.functional.relu(self.fc1(x))
-        x = nn.functional.relu(self.fc2(x))
-        x = self.fc3(x)
-        return nn.functional.log_softmax(x, dim=1)
 
-# Step 3: Train the Model
-model = Net()
+def define_model():
+    # Step 2: Define the PyTorch Model
+    class Net(nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.fc1 = nn.Linear(28 * 28, 128)
+            self.fc2 = nn.Linear(128, 64)
+            self.fc3 = nn.Linear(64, 10)
+
+        def forward(self, x):
+            x = x.view(-1, 28 * 28)
+            x = nn.functional.relu(self.fc1(x))
+            x = nn.functional.relu(self.fc2(x))
+            x = self.fc3(x)
+            return nn.functional.log_softmax(x, dim=1)
+
+    # Step 3: Train the Model
+    model = Net()
+    return model
+
+model = define_model()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
