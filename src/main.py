@@ -5,6 +5,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
+from cnn import CNN
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
@@ -31,7 +32,7 @@ class Net(nn.Module):
         return nn.functional.log_softmax(x, dim=1)
 
 # Step 3: Train the Model
-model = Net()
+model = CNN()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
@@ -40,9 +41,10 @@ epochs = 3
 for epoch in range(epochs):
     for images, labels in trainloader:
         optimizer.zero_grad()
+        images = images.view(images.shape[0], 1, 28, 28)
         output = model(images)
         loss = criterion(output, labels)
         loss.backward()
         optimizer.step()
 
-torch.save(model.state_dict(), "mnist_model.pth")
+torch.save(model.state_dict(), "mnist_cnn_model.pth")
