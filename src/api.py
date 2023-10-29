@@ -2,7 +2,7 @@ from fastapi import FastAPI, UploadFile, File
 from PIL import Image
 import torch
 from torchvision import transforms
-from main import Net  # Importing Net class from main.py
+from main import Net, TrainModel  # Importing Net and TrainModel classes from main.py
 
 # Load the model
 model = Net()
@@ -14,6 +14,9 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
+# Create an instance of TrainModel
+train_model = TrainModel(model, criterion, optimizer, trainloader)
+train_model.train(3)
 
 app = FastAPI()
 
@@ -23,6 +26,6 @@ async def predict(file: UploadFile = File(...)):
     image = transform(image)
     image = image.unsqueeze(0)  # Add batch dimension
     with torch.no_grad():
-        output = model(image)
+        output = train_model.model(image)
         _, predicted = torch.max(output.data, 1)
     return {"prediction": int(predicted[0])}
