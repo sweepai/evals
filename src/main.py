@@ -15,6 +15,23 @@ transform = transforms.Compose([
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
+# Step 4: Define the TrainModel Class
+class TrainModel:
+    def __init__(self, model, criterion, optimizer, dataloader):
+        self.model = model
+        self.criterion = criterion
+        self.optimizer = optimizer
+        self.dataloader = dataloader
+
+    def train(self, epochs):
+        for epoch in range(epochs):
+            for images, labels in self.dataloader:
+                self.optimizer.zero_grad()
+                output = self.model(images)
+                loss = self.criterion(output, labels)
+                loss.backward()
+                self.optimizer.step()
+
 # Step 2: Define the PyTorch Model
 class Net(nn.Module):
     def __init__(self):
@@ -35,14 +52,8 @@ model = Net()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
-# Training loop
-epochs = 3
-for epoch in range(epochs):
-    for images, labels in trainloader:
-        optimizer.zero_grad()
-        output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+# Create an instance of TrainModel and train
+train_model = TrainModel(model, criterion, optimizer, trainloader)
+train_model.train(3)
 
 torch.save(model.state_dict(), "mnist_model.pth")
