@@ -34,15 +34,27 @@ class Net(nn.Module):
 model = Net()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
-
-# Training loop
 epochs = 3
-for epoch in range(epochs):
-    for images, labels in trainloader:
-        optimizer.zero_grad()
-        output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+
+# Create Trainer instance and train
+trainer = Trainer(model, optimizer, criterion, trainloader, epochs)
+trainer.train()
 
 torch.save(model.state_dict(), "mnist_model.pth")
+# Trainer class
+class Trainer:
+    def __init__(self, model, optimizer, criterion, trainloader, epochs):
+        self.model = model
+        self.optimizer = optimizer
+        self.criterion = criterion
+        self.trainloader = trainloader
+        self.epochs = epochs
+
+    def train(self):
+        for epoch in range(self.epochs):
+            for images, labels in self.trainloader:
+                self.optimizer.zero_grad()
+                output = self.model(images)
+                loss = self.criterion(output, labels)
+                loss.backward()
+                self.optimizer.step()
