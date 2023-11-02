@@ -37,24 +37,32 @@ criterion = nn.NLLLoss()
 epochs = 3
 
 # Create Trainer instance and train
-trainer = Trainer(model, optimizer, criterion, trainloader, epochs)
-trainer.train()
+
+def TrainerInstanceCreationAndTraining(model, optimizer, criterion, trainloader, epochs):
+    trainer = Trainer(model, optimizer, criterion, trainloader, epochs)
+    trainer.train()
+
+TrainerInstanceCreationAndTraining(model, optimizer, criterion, trainloader, epochs)
 
 torch.save(model.state_dict(), "mnist_model.pth")
 # Trainer class
-class Trainer:
-    def __init__(self, model, optimizer, criterion, trainloader, epochs):
-        self.model = model
-        self.optimizer = optimizer
-        self.criterion = criterion
-        self.trainloader = trainloader
-        self.epochs = epochs
 
-    def train(self):
-        for epoch in range(self.epochs):
-            for images, labels in self.trainloader:
-                self.optimizer.zero_grad()
-                output = self.model(images)
-                loss = self.criterion(output, labels)
-                loss.backward()
-                self.optimizer.step()
+def TrainerClassDefinition():
+    class Trainer:
+        def __init__(self, model, optimizer, criterion, trainloader, epochs):
+            self.model = model
+            self.optimizer = optimizer
+            self.criterion = criterion
+            self.trainloader = trainloader
+            self.epochs = epochs
+
+        def train(self):
+            for epoch in range(self.epochs):
+                for images, labels in self.trainloader:
+                    self.optimizer.zero_grad()
+                    output = self.model(images)
+                    loss = self.criterion(output, labels)
+                    loss.backward()
+                    self.optimizer.step()
+
+TrainerClassDefinition()
