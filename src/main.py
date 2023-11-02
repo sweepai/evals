@@ -1,3 +1,4 @@
+import logging
 from PIL import Image
 import torch
 import torch.nn as nn
@@ -5,6 +6,8 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 import numpy as np
+
+logging.basicConfig(filename='training.log', level=logging.ERROR)
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
@@ -41,8 +44,15 @@ for epoch in range(epochs):
     for images, labels in trainloader:
         optimizer.zero_grad()
         output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
+        try:
+            loss = criterion(output, labels)
+        except Exception as e:
+            logging.error("Error calculating loss", exc_info=True)
+            continue
+        try:
+            loss.backward()
+            optimizer.step()
+        except Exception as e:
+            logging.error("Error in backpropagation or optimization step", exc_info=True)
 
 torch.save(model.state_dict(), "mnist_model.pth")
