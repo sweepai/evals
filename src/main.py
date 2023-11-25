@@ -1,10 +1,10 @@
-from PIL import Image
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
+from PIL import Image
 from torch.utils.data import DataLoader
-import numpy as np
+from torchvision import datasets, transforms
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
@@ -24,14 +24,14 @@ class Net(nn.Module):
         self.fc3 = nn.Linear(64, 10)
     
     def forward(self, x):
-        x = x.view(-1, 28 * 28)
+        
         x = nn.functional.relu(self.fc1(x))
         x = nn.functional.relu(self.fc2(x))
         x = self.fc3(x)
         return nn.functional.log_softmax(x, dim=1)
 
 # Step 3: Train the Model
-model = Net()
+model = CNN()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 criterion = nn.NLLLoss()
 
