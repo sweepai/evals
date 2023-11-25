@@ -27,7 +27,5 @@ trainer.train(trainloader, epochs=3)
 trainer.save_model()
 
 
-
-
 import to
 from PIL import Image
