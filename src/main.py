@@ -7,12 +7,17 @@ from torch.utils.data import DataLoader
 import numpy as np
 
 # Step 1: Load MNIST Data and Preprocess
+# The MNIST dataset is loaded and preprocessed by transforming the images to tensors and normalizing them.
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
 
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
+trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
+
+# Step 2: Define the PyTorch Model
+class Net(nn.Module):
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
 # Step 2: Define the PyTorch Model
@@ -37,10 +42,18 @@ criterion = nn.NLLLoss()
 
 # Training loop
 epochs = 3
+epochs = 3
 for epoch in range(epochs):
     for images, labels in trainloader:
         optimizer.zero_grad()
         output = model(images)
+        loss = criterion(output, labels)
+        loss.backward()
+        optimizer.step()
+
+torch.save(model.state_dict(), "mnist_model.pth")
+
+torch.save(model.state_dict(), "mnist_model.pth")
         loss = criterion(output, labels)
         loss.backward()
         optimizer.step()
