@@ -1,12 +1,12 @@
-from fastapi import FastAPI, UploadFile, File
-from PIL import Image
 import torch
+from fastapi import FastAPI, File, UploadFile
+from main import Trainer  # Importing Net class from main.py
+from PIL import Image
 from torchvision import transforms
-from main import Net  # Importing Net class from main.py
 
 # Load the model
-model = Net()
-model.load_state_dict(torch.load("mnist_model.pth"))
+trainer = Trainer()
+model = trainer.model
 model.eval()
 
 # Transform used for preprocessing the image
