@@ -1,8 +1,8 @@
-from fastapi import FastAPI, UploadFile, File
-from PIL import Image
 import torch
+from cnn import CNN  # Importing CNN class from cnn.py
+from fastapi import FastAPI, File, UploadFile
+from PIL import Image
 from torchvision import transforms
-from main import Net  # Importing Net class from main.py
 
 # Load the model
 model = Net()
