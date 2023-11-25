@@ -1,10 +1,10 @@
-from PIL import Image
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
+from PIL import Image
 from torch.utils.data import DataLoader
-import numpy as np
+from torchvision import datasets, transforms
 
 # Step 1: Load MNIST Data and Preprocess
 transform = transforms.Compose([
@@ -17,6 +17,19 @@ trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
 # Step 2: Define the PyTorch Model
 class Net(nn.Module):
+    """
+    This is a simple feed-forward neural network model.
+
+    Methods:
+    - __init__: Initializes the model layers.
+    - forward: Defines the forward pass of the model.
+
+    Parameters for forward:
+    - x (torch.Tensor): The input tensor.
+
+    Returns from forward:
+    - torch.Tensor: The output tensor after passing through the model.
+    """
     def __init__(self):
         super().__init__()
         self.fc1 = nn.Linear(28 * 28, 128)
