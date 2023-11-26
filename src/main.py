@@ -36,18 +36,10 @@ criterion = nn.NLLLoss()
 
 # Training loop
 epochs = 3
-epochs = 3
 for epoch in range(epochs):
     for images, labels in trainloader:
         optimizer.zero_grad()
         output = model(images)
-        loss = criterion(output, labels)
-        loss.backward()
-        optimizer.step()
-
-torch.save(model.state_dict(), "mnist_model.pth")
-
-torch.save(model.state_dict(), "mnist_model.pth")
         loss = criterion(output, labels)
         loss.backward()
         optimizer.step()
