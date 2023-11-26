@@ -14,9 +14,9 @@ transform = transforms.Compose([
 
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
 # Step 2: Define the PyTorch Model
-class Net(nn.Module):
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 # 'trainloader' variable added back into the code to load the training data for the model
+class Net(nn.Module):
     def __init__(self):
         super().__init__()
         self.fc1 = nn.Linear(28 * 28, 128)
