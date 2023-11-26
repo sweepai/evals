@@ -1,11 +1,12 @@
-from fastapi import FastAPI, UploadFile, File
-from PIL import Image
 import torch
-from torchvision import transforms
+from cnn import CNN
+from fastapi import FastAPI, File, UploadFile
 from main import Net  # Importing Net class from main.py
+from PIL import Image
+from torchvision import transforms
 
 # Load the model
-model = Net()
+model = CNN()
 model.load_state_dict(torch.load("mnist_model.pth"))
 model.eval()
 
