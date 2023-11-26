@@ -14,12 +14,6 @@ transform = transforms.Compose([
 ])
 
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
-trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
-
-# Step 2: Define the PyTorch Model
-class Net(nn.Module):
-trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
-
 # Step 2: Define the PyTorch Model
 class Net(nn.Module):
     def __init__(self):
