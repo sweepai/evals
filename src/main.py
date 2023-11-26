@@ -4,7 +4,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-import numpy as np
 
 # Step 1: Load MNIST Data and Preprocess
 # The MNIST dataset is loaded and preprocessed by transforming the images to tensors and normalizing them.
@@ -16,6 +15,8 @@ transform = transforms.Compose([
 trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
 # Step 2: Define the PyTorch Model
 class Net(nn.Module):
+trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
+# 'trainloader' variable added back into the code to load the training data for the model
     def __init__(self):
         super().__init__()
         self.fc1 = nn.Linear(28 * 28, 128)
@@ -36,7 +37,8 @@ criterion = nn.NLLLoss()
 
 # Training loop
 epochs = 3
-for epoch in range(epochs):
+for _ in range(epochs):
+# 'epoch' variable removed as it is not used within the loop body
     for images, labels in trainloader:
         optimizer.zero_grad()
         output = model(images)
