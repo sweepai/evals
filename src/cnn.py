@@ -36,12 +36,12 @@ class CNN(nn.Module):
 
         torch.save(self.state_dict(), "mnist_cnn_model.pth")
 
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5,), (0.5,))
-])
 
-trainset = datasets.MNIST('.', download=True, train=True, transform=transform)
+transform = transforms.Compose(
+    [transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
+)
+
+trainset = datasets.MNIST(".", download=True, train=True, transform=transform)
 trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 
 cnn = CNN()
